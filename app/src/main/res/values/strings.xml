@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">E_Commerce_App</string>
+    <string name="appName">E-Commerce App</string>
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="please_sign_in">Please Sign In</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
