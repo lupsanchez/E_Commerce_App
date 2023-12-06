@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".MainActivity">
+    tools:context=".SignUpActivity">
 
 
     <TextView
-        android:id="@+id/mainAppNameDisplay"
+        android:id="@+id/signUpDisplayText"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:gravity="center"
-        android:text="@string/appName"
+        android:text="Please Sign Up"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,21 +25,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.195" />
 
-    <TextView
-        android:id="@+id/loginTextDisplay"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:layout_below="@id/mainAppNameDisplay"
-        android:gravity="center"
-        android:text="@string/please_sign_in"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainAppNameDisplay" />
-
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/editTextNewUsername"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
@@ -48,10 +35,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginTextDisplay" />
+        app:layout_constraintTop_toBottomOf="@id/signUpDisplayText" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextNewPassword"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
@@ -60,21 +47,22 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextUsername" />
+        app:layout_constraintTop_toBottomOf="@id/editTextNewUsername" />
 
-    <Button
-        android:id="@+id/buttonLogin"
+    <EditText
+        android:id="@+id/editTextReEnterPassword"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/login"
+        android:hint="@string/re_enter_password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />
 
     <Button
-        android:id="@+id/buttonSignUp"
+        android:id="@+id/buttonSignUpSUP"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
@@ -82,6 +70,17 @@
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@id/editTextReEnterPassword" />
+
+    <Button
+        android:id="@+id/buttonReturnToLogin"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/return_to_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonSignUpSUP" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
