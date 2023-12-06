@@ -50,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
         checkForUser();
 
+        User adminUser;
+
+        if(mECommerceDAO.getUserByUsername("admin2") == null){
+            adminUser = new User("admin2", "pass123", true);
+            mECommerceDAO.insert(adminUser);
+        }
+
         wireUpDisplay();
 
     }
