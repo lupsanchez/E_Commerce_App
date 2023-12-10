@@ -68,6 +68,14 @@ public class LoginActivity extends AppCompatActivity {
         mButtonViewInventory = findViewById(R.id.buttonViewInventory);
         mButtonAdminSettings = findViewById(R.id.buttonAdminSettings);
 
+        mButtonAdminSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AdminSettings.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
     }
 
     public static Intent intentFactory(Context context, int userId){

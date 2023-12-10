@@ -17,7 +17,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,19 +24,29 @@
             android:name=".SignUpActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SIGNUP" />
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.LOGIN" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AdminSettings"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ADMINSETTINGS" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Users"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="android.intent.action.USERS"/>
+        </intent-filter>
         </activity>
     </application>
 

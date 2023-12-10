@@ -13,4 +13,6 @@
     <string name="re_enter_password">Re-enter Password</string>
     <string name="return_to_login">Return to Login</string>
     <string name="invalid_password">Invalid password</string>
+    <string name="administrator_settings">Administrator Settings</string>
+    <string name="add_new_user">Add New User</string>
 </resources>
