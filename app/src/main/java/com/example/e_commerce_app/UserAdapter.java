@@ -1,22 +1,42 @@
 package com.example.e_commerce_app;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.example.e_commerce_app.db.AppDatabase;
+import com.example.e_commerce_app.db.ECommerceDAO;
+
+import java.nio.Buffer;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-    private List<User> userList;
 
-    public UserAdapter(List<User> userList) {
+    private List<User> userList;
+    private OnItemClickListener listener;
+    private OnDeleteClickListener onDeleteClickListener;
+    private Context context;
+
+    private ECommerceDAO mECommerceDAO;
+
+
+    public UserAdapter(List<User> userList, OnItemClickListener listener, Context context, ECommerceDAO eCommerceDAO, OnDeleteClickListener onDeleteClickListener) {
         this.userList = userList;
+        this.listener = listener;
+        this.context = context;
+        this.mECommerceDAO = eCommerceDAO;
+        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
@@ -37,7 +57,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         // Get the data model based on the position
         User user = userList.get(position);
 
-        // Set item views based on your views and data model
+
+        holder.mTextViewUserId.setText(String.valueOf(user.getUserId()));
         holder.mTextViewUsername.setText(user.getUserName());
         if(user.isAdmin()){
             holder.mTextViewIsAdmin.setText("Admin Account");
@@ -52,28 +73,56 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     // Define the view holder
-    public static class UserViewHolder extends RecyclerView.ViewHolder {
+    public class UserViewHolder extends RecyclerView.ViewHolder {
 
+        TextView mTextViewUserId;
         TextView mTextViewUsername;
         TextView mTextViewIsAdmin;
+        Button mButtonDelete;
 
         public UserViewHolder(View itemView) {
             super(itemView);
 
             // Get references to the views defined in item_user.xml
+
+            mTextViewUserId = itemView.findViewById(R.id.textViewUserId);
             mTextViewUsername = itemView.findViewById(R.id.textViewUsername);
             mTextViewIsAdmin = itemView.findViewById(R.id.textViewIsAdmin);
+            mButtonDelete = itemView.findViewById(R.id.buttonDelete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null){
+                        listener.onItemClick(userList.get(position).getUserId());
+                    }
 
+                }
+            });
+
+            mButtonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onDeleteClickListener != null){
+                        onDeleteClickListener.onDeleteClick(getAdapterPosition());
+                    }
                 }
             });
         }
     }
 
+    public void refreshDataSet(List<User> newDataSet) {
+        userList.clear();
+        userList.addAll(newDataSet);
+        notifyDataSetChanged();
+    }
+
+    public interface OnDeleteClickListener {
+        void onDeleteClick(int position);
+    }
+
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int userId);
     }
 }

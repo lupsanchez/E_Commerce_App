@@ -7,17 +7,12 @@ android:layout_height="match_parent"
 android:background="#F5F5F5"
 tools:context=".LoginActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:title="Menu"
-        android:textStyle="bold"
-        app:titleTextColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
+    <include
+        android:id="@+id/myToolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/actionMenuView"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.ActionMenuView
         android:id="@+id/actionMenuView"
@@ -25,8 +20,8 @@ tools:context=".LoginActivity">
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toEndOf="@id/toolbar"/>
+        app:layout_constraintBottom_toBottomOf="@id/myToolbar"
+        app:layout_constraintStart_toEndOf="@id/myToolbar"/>
 
     <TextView
         android:id="@+id/loginTextDisplay"

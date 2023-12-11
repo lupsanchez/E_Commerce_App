@@ -17,6 +17,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,7 +46,14 @@
             android:name=".Users"
             android:exported="true">
             <intent-filter>
-            <action android:name="android.intent.action.USERS"/>
+                <action android:name="android.intent.action.USERS" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Products"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.PRODUCTS" />
         </intent-filter>
         </activity>
     </application>

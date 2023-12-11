@@ -2,10 +2,19 @@ package com.example.e_commerce_app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -23,20 +32,40 @@ public class LoginActivity extends AppCompatActivity {
 
     private ECommerceDAO mECommerceDAO;
 
+    private MenuItem mMenuItemAdminSettings;
+
     private User mUser;
+    private int mUserId;
+
+    private SharedPreferences mPreferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Toolbar toolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar);
+
         getDatabase();
 
         wireUpDisplay();
 
-        int userId = getIntent().getIntExtra(USER_ID_KEY, -1);
-        updateUserUI(userId);
+        mUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
+        updateUserUI(mUserId);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return MenuHelper.onOptionsItemSelected(this, item, mUser) || super.onOptionsItemSelected(item);
     }
 
     private void updateUserUI(int userId) {
@@ -48,8 +77,10 @@ public class LoginActivity extends AppCompatActivity {
             // Set the visibility of the admin button based on the user's role
             if (mUser.isAdmin()) {
                 mButtonAdminSettings.setVisibility(View.VISIBLE);
+                //mMenuItemAdminSettings.setVisible(true);
             } else {
                 mButtonAdminSettings.setVisibility(View.GONE);
+                //mMenuItemAdminSettings.setVisible(false);
             }
         }
     }
@@ -67,6 +98,8 @@ public class LoginActivity extends AppCompatActivity {
         mButtonViewOrders = findViewById(R.id.buttonViewOrders);
         mButtonViewInventory = findViewById(R.id.buttonViewInventory);
         mButtonAdminSettings = findViewById(R.id.buttonAdminSettings);
+
+        mMenuItemAdminSettings = findViewById(R.id.menuAdminSettings);
 
         mButtonAdminSettings.setOnClickListener(new View.OnClickListener() {
             @Override

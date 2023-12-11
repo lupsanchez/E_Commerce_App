@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.e_commerce_app.Product;
 import com.example.e_commerce_app.User;
 
 import java.util.List;
@@ -29,4 +30,22 @@ public interface ECommerceDAO {
 
     @Query("SELECT * FROM " + AppDatabase.USER_TABLE + " WHERE mUserId = :userId")
     User getUserByUserId(int userId);
+
+    @Insert
+    void insert(Product... product);
+
+    @Update
+    void update(Product...product);
+
+    @Delete
+    void delete(Product product);
+
+    @Query("SELECT * FROM " + AppDatabase.PRODUCT_TABLE)
+    List<Product> getAllProducts();
+
+    @Query("SELECT * FROM " + AppDatabase.PRODUCT_TABLE + " WHERE mProductName = :productName")
+    Product getProductByProductName(String productName);
+
+    @Query("SELECT * FROM " + AppDatabase.PRODUCT_TABLE + " WHERE mProductId = :productId")
+    Product getProductById(int productId);
 }
