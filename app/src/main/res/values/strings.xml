@@ -15,4 +15,9 @@
     <string name="invalid_password">Invalid password</string>
     <string name="administrator_settings">Administrator Settings</string>
     <string name="add_new_user">Add New User</string>
+    <string name="productid">ProductId</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_quantity">Product Quantity</string>
+    <string name="delete">Delete</string>
 </resources>

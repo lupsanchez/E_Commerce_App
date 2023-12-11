@@ -15,8 +15,7 @@ public class Product {
     private double mProductPrice;
     private int mProductQuantity;
 
-    public Product(int productId, String productName, double productPrice, int productQuantity) {
-        mProductId = productId;
+    public Product(String productName, double productPrice, int productQuantity) {
         mProductName = productName;
         mProductPrice = productPrice;
         mProductQuantity = productQuantity;

@@ -14,19 +14,18 @@ import com.example.e_commerce_app.db.ECommerceDAO;
 
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-
-    private List<User> userList;
-    private OnItemClickListener listener;
-    private OnDeleteClickListener onDeleteClickListener;
+    private List<Product> productList;
+    private UserAdapter.OnItemClickListener listener;
+    private UserAdapter.OnDeleteClickListener onDeleteClickListener;
     private Context context;
 
     private ECommerceDAO mECommerceDAO;
 
 
-    public UserAdapter(List<User> userList, OnItemClickListener listener, Context context, ECommerceDAO eCommerceDAO, OnDeleteClickListener onDeleteClickListener) {
-        this.userList = userList;
+    public ProductAdapter(List<Product> productList, UserAdapter.OnItemClickListener listener, Context context, ECommerceDAO eCommerceDAO, UserAdapter.OnDeleteClickListener onDeleteClickListener) {
+        this.productList = productList;
         this.listener = listener;
         this.context = context;
         this.mECommerceDAO = eCommerceDAO;
@@ -35,53 +34,49 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View userView = inflater.inflate(R.layout.item_user, parent, false);
+        View productView = inflater.inflate(R.layout.item_product, parent, false);
 
         // Return a new holder instance
-        return new UserViewHolder(userView);
+        return new ProductAdapter.ProductViewHolder(productView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductAdapter.ProductViewHolder holder, int position) {
         // Get the data model based on the position
-        User user = userList.get(position);
+        Product product = productList.get(position);
 
 
-        holder.mTextViewUserId.setText(String.valueOf(user.getUserId()));
-        holder.mTextViewUsername.setText(user.getUserName());
-        if(user.isAdmin()){
-            holder.mTextViewIsAdmin.setText("Admin Account");
-        } else{
-            holder.mTextViewIsAdmin.setText("Customer Account");
-        }
+        holder.mTextViewProductId.setText(String.valueOf(product.getProductId()));
+        holder.mTextViewProductName.setText(product.getProductName());
+        holder.mTextViewProductPrice.setText(String.valueOf(product.getProductPrice()));
+        holder.mTextViewProductQuantity.setText(String.valueOf(product.getProductQuantity()));
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return productList.size();
     }
 
-    // Define the view holder
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mTextViewUserId;
-        TextView mTextViewUsername;
-        TextView mTextViewIsAdmin;
+        TextView mTextViewProductId;
+        TextView mTextViewProductName;
+        TextView mTextViewProductPrice;
+        TextView mTextViewProductQuantity;
         Button mButtonDelete;
 
-        public UserViewHolder(View itemView) {
+        public ProductViewHolder(View itemView) {
             super(itemView);
 
-            // Get references to the views defined in item_user.xml
-
-            mTextViewUserId = itemView.findViewById(R.id.textViewUserId);
-            mTextViewUsername = itemView.findViewById(R.id.textViewProductName);
-            mTextViewIsAdmin = itemView.findViewById(R.id.textViewIsAdmin);
+            mTextViewProductId = itemView.findViewById(R.id.textViewProductId);
+            mTextViewProductName = itemView.findViewById(R.id.textViewProductName);
+            mTextViewProductPrice = itemView.findViewById(R.id.textViewProductPrice);
+            mTextViewProductQuantity = itemView.findViewById(R.id.textViewProductQuantity);
             mButtonDelete = itemView.findViewById(R.id.buttonDelete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +84,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onItemClick(userList.get(position).getUserId());
+                        listener.onItemClick(productList.get(position).getProductId());
                     }
 
                 }
@@ -104,12 +99,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 }
             });
         }
-    }
-
-    public void refreshDataSet(List<User> newDataSet) {
-        userList.clear();
-        userList.addAll(newDataSet);
-        notifyDataSetChanged();
     }
 
     public interface OnDeleteClickListener {
