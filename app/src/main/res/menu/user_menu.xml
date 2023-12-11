@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menuShoppingCart"
+        android:icon="@drawable/shopping_cart"
+        android:title="Shopping Cart"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/menuMyOrders"
+        android:title="My Orders"
+        app:showAsAction="never"
+        android:visible="false"/>
+
+    <item android:id="@+id/menuAdminSettings"
+        android:title="Admin Settings"
+        app:showAsAction="never"
+        android:visible="false">
+
+<!--        <menu>-->
+
+<!--            <item android:id="@+id/subMenuOrders"-->
+<!--                android:title="All Orders"/>-->
+<!--            <item android:id="@+id/subMenuInventory"-->
+<!--            android:title="Inventory"/>-->
+<!--            <item android:id="@+id/subMenuUsers"-->
+<!--                android:title="Users"/>-->
+
+<!--        </menu>-->
+    </item>
+
+    <item android:id="@+id/menuLogout"
+        android:title="Logout"
+        app:showAsAction="never"/>
+
+</menu>

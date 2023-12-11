@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#F5F5F5"
-tools:context=".LoginActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminSettings">
 
     <include
         android:id="@+id/myToolbar"
@@ -14,71 +13,63 @@ tools:context=".LoginActivity">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.appcompat.widget.ActionMenuView
-        android:id="@+id/actionMenuView"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/myToolbar"
-        app:layout_constraintStart_toEndOf="@id/myToolbar"/>
-
     <TextView
-        android:id="@+id/loginTextDisplay"
+        android:id="@+id/textDisplayAdminLogin"
         android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_margin="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"
         android:ems="10"
         android:gravity="center"
-        android:text="@string/welcome"
+        android:text="@string/administrator_settings"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <SearchView
-        android:id="@+id/searchBar"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginTextDisplay" />
+        app:layout_constraintTop_toBottomOf="@id/myToolbar"/>
 
     <Button
-        android:id="@+id/buttonViewOrders"
+        android:id="@+id/buttonCustomerLogin"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/view_orders"
+        android:text="Return to Customer Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar" />
+        app:layout_constraintTop_toBottomOf="@id/textDisplayAdminLogin" />
 
     <Button
-        android:id="@+id/buttonViewInventory"
+        android:id="@+id/buttonInventory"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/view_inventory"
+        android:text="Inventory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonViewOrders" />
+        app:layout_constraintTop_toBottomOf="@id/buttonOrders"/>
 
     <Button
-        android:id="@+id/buttonAdminSettings"
+        android:id="@+id/buttonUsers"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/admin_settings"
-        android:visibility="invisible"
+        android:text="Users"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonViewInventory" />
+        app:layout_constraintTop_toBottomOf="@id/buttonCustomerLogin"/>
+
+    <Button
+        android:id="@+id/buttonOrders"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Orders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonUsers"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,17 @@
 package com.example.e_commerce_app;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Dao;
 import androidx.room.Room;
 
 import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +25,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String PRESENCES_KEY = "com.example.e_commerce_app.PREFERENCES_KEY";
+    private static final String PREFERENCES_KEY = "com.example.e_commerce_app.PREFERENCES_KEY";
     private static final String USER_ID_KEY = "com.example.e_commerce_app.USER_ID_KEY";
     private TextView mMainAppNameDisplay;
 
@@ -50,19 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
         checkForUser();
 
+        //addUserToPreference(mUserId);
+
+        //loginUser(mUserId);
+
         wireUpDisplay();
 
-    }
-
-
-
-    private void addUserToPreference(int userId) {
-        if(mPreferences == null){
-            getPrefs();
-        }
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt(USER_ID_KEY, userId);
-        editor.apply();
     }
 
     public void wireUpDisplay(){
@@ -109,6 +107,18 @@ public class MainActivity extends AppCompatActivity {
     private void loginUser(int userId) {
         mUser = mECommerceDAO.getUserByUserId(userId);
 
+        invalidateOptionsMenu();
+
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(mUser != null){
+            MenuItem item = menu.findItem(R.id.menuLogout);
+            item.setTitle(mUser.getUserName());
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void getDatabase(){
@@ -139,7 +149,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences preferences = this.getSharedPreferences(PRESENCES_KEY, Context.MODE_PRIVATE);
+//        if(mPreferences == null){
+//            getPrefs();
+//        }
+//
+//        mUserId = mPreferences.getInt(USER_ID_KEY, -1);
+
+        SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
 
         if(mUserId != -1){
             return;
@@ -153,9 +169,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getPrefs() {
-        SharedPreferences preferences = this.getSharedPreferences(PRESENCES_KEY, Context.MODE_PRIVATE);
-    }
+//    private void clearUserFromPref(){
+//        addUserToPreference(-1);
+//    }
+//
+//    private void clearUserFromIntent(){
+//        getIntent().putExtra(USER_ID_KEY, -1);
+//    }
+
+//    private void addUserToPreference(int userId){
+//        if(mPreferences == null){
+//            getPrefs();
+//        }
+//        SharedPreferences.Editor editor = mPreferences.edit();
+//        editor.putInt(USER_ID_KEY, userId);
+//    }
+//
+//    private void getPrefs() {
+//        SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+//    }
 
     public static Intent intentFactory(Context context){
         Intent intent = new Intent(context, MainActivity.class);
