@@ -80,7 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             // Get references to the views defined in item_user.xml
 
             mTextViewUserId = itemView.findViewById(R.id.textViewUserId);
-            mTextViewUsername = itemView.findViewById(R.id.textViewProductName);
+            mTextViewUsername = itemView.findViewById(R.id.textViewUsername);
             mTextViewIsAdmin = itemView.findViewById(R.id.textViewIsAdmin);
             mButtonDelete = itemView.findViewById(R.id.buttonDelete);
 

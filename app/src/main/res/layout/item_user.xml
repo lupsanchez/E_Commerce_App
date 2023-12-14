@@ -13,38 +13,38 @@
         android:elevation="2dp">
 
         <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textViewUserId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UserId" />
+            <TextView
+                android:id="@+id/textViewUserId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UserId" />
 
-        <TextView
-            android:id="@+id/textViewProductName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:layout_below="@id/textViewUserId"/>
+            <TextView
+                android:id="@+id/textViewUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewUserId"
+                android:text="Username" />
 
-        <TextView
-            android:id="@+id/textViewIsAdmin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Account Type"
-            android:layout_below="@id/textViewProductName"/>
+            <TextView
+                android:id="@+id/textViewIsAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewUsername"
+                android:text="Account Type" />
 
-        <Button
-            android:id="@+id/buttonDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Account"
-            android:onClick="onDeleteButtonClick"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"/>
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:onClick="onDeleteButtonClick"
+                android:text="Delete" />
 
         </RelativeLayout>
 

@@ -14,46 +14,44 @@ import com.example.e_commerce_app.db.ECommerceDAO;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductListingViewHolder> {
 
     private List<Product> productList;
-    private ProductAdapter.OnItemClickListener listener;
-    private ProductAdapter.OnDeleteClickListener onDeleteClickListener;
+    private ProductListingAdapter.OnItemClickListener listener;
     private Context context;
 
     private ECommerceDAO mECommerceDAO;
 
 
-    public ProductAdapter(List<Product> productList, ProductAdapter.OnItemClickListener listener, Context context, ECommerceDAO eCommerceDAO, ProductAdapter.OnDeleteClickListener onDeleteClickListener) {
+    public ProductListingAdapter(List<Product> productList, ProductListingAdapter.OnItemClickListener listener, Context context, ECommerceDAO eCommerceDAO) {
         this.productList = productList;
         this.listener = listener;
         this.context = context;
         this.mECommerceDAO = eCommerceDAO;
-        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
     @Override
-    public ProductAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductListingAdapter.ProductListingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View productView = inflater.inflate(R.layout.item_product, parent, false);
+        View productListingView = inflater.inflate(R.layout.item_product_listing, parent, false);
 
         // Return a new holder instance
-        return new ProductAdapter.ProductViewHolder(productView);
+        return new ProductListingViewHolder(productListingView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductListingAdapter.ProductListingViewHolder holder, int position) {
         // Get the data model based on the position
         Product product = productList.get(position);
 
 
         holder.mTextViewProductId.setText(String.valueOf(product.getProductId()));
         holder.mTextViewProductName.setText(product.getProductName());
-        holder.mTextViewProductPrice.setText(String.valueOf("$ " + product.getProductPrice()));
+        holder.mTextViewProductPrice.setText(String.valueOf(product.getProductPrice()));
         holder.mTextViewProductQuantity.setText(String.valueOf(product.getProductQuantity()));
     }
 
@@ -62,48 +60,34 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    public class ProductViewHolder extends RecyclerView.ViewHolder {
+    public class ProductListingViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTextViewProductId;
         TextView mTextViewProductName;
         TextView mTextViewProductPrice;
         TextView mTextViewProductQuantity;
-        Button mButtonDelete;
 
-        public ProductViewHolder(View itemView) {
+        public ProductListingViewHolder(View itemView) {
             super(itemView);
 
             mTextViewProductId = itemView.findViewById(R.id.textViewProductId);
             mTextViewProductName = itemView.findViewById(R.id.textViewProductName);
             mTextViewProductPrice = itemView.findViewById(R.id.textViewProductPrice);
             mTextViewProductQuantity = itemView.findViewById(R.id.textViewProductQuantity);
-            mButtonDelete = itemView.findViewById(R.id.buttonDelete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null){
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(productList.get(position).getProductId());
                     }
 
                 }
             });
-
-            mButtonDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(onDeleteClickListener != null){
-                        onDeleteClickListener.onDeleteClick(getAdapterPosition());
-                    }
-                }
-            });
         }
     }
 
-    public interface OnDeleteClickListener {
-        void onDeleteClick(int position);
-    }
 
     public interface OnItemClickListener {
         void onItemClick(int productId);

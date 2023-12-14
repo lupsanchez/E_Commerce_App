@@ -101,6 +101,14 @@ public class LoginActivity extends AppCompatActivity {
 
         mMenuItemAdminSettings = findViewById(R.id.menuAdminSettings);
 
+        mButtonViewInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AllProductsListed.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
         mButtonAdminSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -35,7 +35,7 @@ public class MenuHelper {
         int itemId = item.getItemId();
 
         if (itemId == R.id.menuShoppingCart) {
-            Toast.makeText(context, "Shopping Cart was selected", Toast.LENGTH_SHORT).show();
+            openCart(context, user);
         } else if (itemId == R.id.menuMyOrders) {
             Toast.makeText(context, "My Orders was selected", Toast.LENGTH_SHORT).show();
             return true;
@@ -52,6 +52,12 @@ public class MenuHelper {
     private static void openAdminSettings(Context context, User user){
         Intent intent = AdminSettings.intentFactory(context, user.getUserId());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
+    private static void openCart(Context context, User user){
+        Intent intent = MyCart.intentFactory(context, user.getUserId());
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 
