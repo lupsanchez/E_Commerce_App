@@ -59,6 +59,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         } else{
             holder.mTextViewIsAdmin.setText("Customer Account");
         }
+        holder.mTextViewCartId.setText(String.valueOf(user.getCurrentCartId()));
     }
 
     @Override
@@ -72,6 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView mTextViewUserId;
         TextView mTextViewUsername;
         TextView mTextViewIsAdmin;
+        TextView mTextViewCartId;
         Button mButtonDelete;
 
         public UserViewHolder(View itemView) {
@@ -83,6 +85,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             mTextViewUsername = itemView.findViewById(R.id.textViewUsername);
             mTextViewIsAdmin = itemView.findViewById(R.id.textViewIsAdmin);
             mButtonDelete = itemView.findViewById(R.id.buttonDelete);
+            mTextViewCartId = itemView.findViewById(R.id.textViewCartId);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

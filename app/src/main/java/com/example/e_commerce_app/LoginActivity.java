@@ -117,6 +117,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        mButtonViewOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     public static Intent intentFactory(Context context, int userId){

@@ -13,9 +13,6 @@
         android:theme="@style/Theme.E_Commerce_App"
         tools:targetApi="31">
         <activity
-            android:name=".MyCart"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -72,6 +69,20 @@
             <intent-filter>
                 <action android:name="android.intent.action.PRODUCTPAGE" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AllOrders"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.ALLORDERS" />
+        </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyCart"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MYCART" />
+        </intent-filter>
         </activity>
     </application>
 

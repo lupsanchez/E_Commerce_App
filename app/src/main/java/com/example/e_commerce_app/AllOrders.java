@@ -3,8 +3,6 @@ package com.example.e_commerce_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Context;
@@ -20,40 +18,47 @@ import com.example.e_commerce_app.db.ECommerceDAO;
 
 import java.util.List;
 
-public class AllProductsListed extends AppCompatActivity {
+public class AllOrders extends AppCompatActivity {
     private static final String USER_ID_KEY = "com.example.e_commerce_app.USER_ID_KEY";
-    private TextView mTextViewAllProductsTitle;
-    private RecyclerView mRecyclerViewProducts;
+    private TextView mTextViewAllOrdersTitle;
+    private TextView mTextViewAllOrdersListings;
 
     private ECommerceDAO mECommerceDAO;
 
-    private List<Product> mProductList;
-    private ProductListingAdapter mProductListingAdapter;
-    private Product mProduct;
-    private int mProductId;
-
-    private Product mSelectedProduct;
-
+    private List<User> mUsers;
     private User mUser;
     private int mUserId;
 
+    private int mCartId;
+
+    private List<Cart> mCartList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_products_listed);
+        setContentView(R.layout.activity_all_orders);
 
         Toolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
         getDatabase();
 
-        mProductList = mECommerceDAO.getAllProducts();
+        mUsers = mECommerceDAO.getAllUsers();
 
         mUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
         mUser = mECommerceDAO.getUserByUserId(mUserId);
 
         wireUpdDisplay();
+
+        refreshDisplay();
+    }
+
+    private void wireUpdDisplay() {
+        mTextViewAllOrdersTitle = findViewById(R.id.textViewAllOrdersTitle);
+
+        mTextViewAllOrdersListings = findViewById(R.id.textViewAllOrdersListings);
+
+
     }
 
     @Override
@@ -68,40 +73,42 @@ public class AllProductsListed extends AppCompatActivity {
         return MenuHelper.onOptionsItemSelected(this, item, mUser) || super.onOptionsItemSelected(item);
     }
 
-    private void wireUpdDisplay() {
-        mTextViewAllProductsTitle = findViewById(R.id.textViewAllProductsTitle);
-
-        mRecyclerViewProducts = findViewById(R.id.recyclerViewProductListings);
-        mRecyclerViewProducts.setLayoutManager(new LinearLayoutManager(this));
-
-        mProductListingAdapter = new ProductListingAdapter(mProductList, this::onItemClick, this, mECommerceDAO);
-        mRecyclerViewProducts.setAdapter(mProductListingAdapter);
-    }
-
-    private void getDatabase() {
+    private void getDatabase(){
         mECommerceDAO = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
                 .allowMainThreadQueries()
                 .build()
                 .getECommerceDAO();
     }
 
-    public void refreshDisplay(){
-        mProductList = mECommerceDAO.getAllProducts();
+    private void refreshDisplay(){
+        mCartList = mECommerceDAO.getAllCarts();
 
-        mProductListingAdapter = new ProductListingAdapter(mProductList, this::onItemClick, this, mECommerceDAO);
-        mRecyclerViewProducts.setAdapter(mProductListingAdapter);
+        if(mCartList.size() <= 0) {
+            mTextViewAllOrdersListings.setText("No Carts");
+        }
 
-    }
+        StringBuilder sb = new StringBuilder();
 
-    //@Override
-    public void onItemClick(int productId){
-        mSelectedProduct = mECommerceDAO.getProductById(productId);
-        Intent intent = ProductPage.intentFactory(AllProductsListed.this, mUser.getUserId(), mSelectedProduct.getProductId());
-        startActivity(intent);
+        for(Cart cart : mCartList){
+            sb.append("\nCartId: " + cart.getCartId());
+            sb.append("\nUserId: " + cart.getUserId());
+            sb.append("\nCartSize: " + cart.getProductIds().size());
+
+            List<Integer> productIds = cart.getProductIds();
+            sb.append("ProductIds:\n");
+
+            for (Integer productId : productIds) {
+                sb.append("- ").append(productId).append("\n");
+            }
+            sb.append("\n");
+            sb.append("=-=-=-=-=-=-=-=-");
+            sb.append("\n");
+        }
+        mTextViewAllOrdersListings.setText(sb.toString());
     }
 
     public static Intent intentFactory(Context context, int userId){
-        Intent intent = new Intent(context, AllProductsListed.class);
+        Intent intent = new Intent(context, AllOrders.class);
         intent.putExtra(USER_ID_KEY, userId);
         return intent;
     }

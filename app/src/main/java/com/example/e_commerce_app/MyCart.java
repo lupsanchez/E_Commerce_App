@@ -19,7 +19,10 @@ import android.widget.TextView;
 import com.example.e_commerce_app.db.AppDatabase;
 import com.example.e_commerce_app.db.ECommerceDAO;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClickListener {
     private static final String USER_ID_KEY = "com.example.e_commerce_app.USER_ID_KEY";
@@ -38,6 +41,9 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
     private User mUser;
     private int mUserId;
 
+    private Cart mCart;
+    private int mCartId;
+
     private Product mProduct;
     private Product mSelectedProduct;
 
@@ -52,10 +58,40 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
 
         getDatabase();
 
-        mProductsList = mECommerceDAO.getAllProducts();
-
         mUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
         mUser = mECommerceDAO.getUserByUserId(mUserId);
+
+        mCart = mECommerceDAO.getCartById(mUser.getCurrentCartId());
+
+        // Get the list of product IDs from the cart
+        List<Integer> productIds = mCart.getProductIds();
+
+        // Initialize the list to hold products with quantities
+        mProductsList = new ArrayList<>();
+
+        // Create a map to store the count of each product ID
+        Map<Integer, Integer> productCounts = new HashMap<>();
+
+        // Iterate through the product IDs to count quantities
+        for (int productId : productIds) {
+            // Increment the count for each product ID
+            productCounts.put(productId, productCounts.getOrDefault(productId, 0) + 1);
+        }
+
+        // Iterate through the product counts to create Product objects with quantities
+        for (Map.Entry<Integer, Integer> entry : productCounts.entrySet()) {
+            int productId = entry.getKey();
+            int quantity = entry.getValue();
+
+            // Get the product details from the database
+            Product product = mECommerceDAO.getProductById(productId);
+
+            // Create a new Product object with the quantity
+            Product productWithQuantity = new Product(product.getProductName(), product.getProductPrice(),quantity);
+            productWithQuantity.setProductId(productId);
+            // Add the product with quantity to the list
+            mProductsList.add(productWithQuantity);
+        }
 
         wireUpdDisplay();
     }
@@ -67,6 +103,7 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
         mRecyclerViewCartItems.setLayoutManager(new LinearLayoutManager(this));
 
         mCartAdapter = new CartAdapter(mProductsList, this::onItemClick, this, mECommerceDAO);
+        mRecyclerViewCartItems.setAdapter(mCartAdapter);
 
         mTextViewCartTotal = findViewById(R.id.textViewCartTotal);
 

@@ -23,7 +23,7 @@ public class MenuHelper {
         MenuItem mMenuItemAdminSettings = menu.findItem(R.id.menuAdminSettings);
 
         boolean isAdmin = user.isAdmin();
-        //mMenuItemAdminSettings.setVisible(isAdmin);
+        mMenuItemAdminSettings.setVisible(isAdmin);
     }
 
     private static boolean isAdminUser(Context context, int userId) {

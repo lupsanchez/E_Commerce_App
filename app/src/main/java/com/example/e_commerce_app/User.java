@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import com.example.e_commerce_app.db.AppDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(tableName = AppDatabase.USER_TABLE)
 public class User {
 
@@ -16,16 +19,20 @@ public class User {
 
     private boolean mAdmin;
 
+    private int mCurrentCartId;
+
     public User(String userName, String password) {
         mUserName = userName;
         mPassword = password;
         mAdmin = false;
+        mCurrentCartId = 0;
     }
 
     public User(String userName, String password, boolean isAdmin) {
         mUserName = userName;
         mPassword = password;
         mAdmin = isAdmin;
+        mCurrentCartId = 0;
     }
 
     public int getUserId() {
@@ -59,4 +66,13 @@ public class User {
     public void setAdmin(boolean admin) {
         mAdmin = admin;
     }
+
+    public int getCurrentCartId() {
+        return mCurrentCartId;
+    }
+
+    public void setCurrentCartId(int currentCartId) {
+        mCurrentCartId = currentCartId;
+    }
+
 }

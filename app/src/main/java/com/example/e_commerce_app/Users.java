@@ -145,7 +145,19 @@ public class Users extends AppCompatActivity implements UserAdapter.OnItemClickL
                         }else {
                             User newUser = new User(newUsername, newPassword, newIsAdmin);
                             mECommerceDAO.insert(newUser);
-                            Toast.makeText(Users.this, newUser.getUserName() + " added.", Toast.LENGTH_SHORT).show();
+
+                            int newUserId = mECommerceDAO.getUserByUsername(newUser.getUserName()).getUserId();
+
+                            Cart newCart = new Cart(newUserId);
+
+                            long newCartId = mECommerceDAO.insert(newCart);
+
+                            newUser = mECommerceDAO.getUserByUserId(newCart.getUserId());
+
+                            newUser.setCurrentCartId(Integer.valueOf((int) newCartId));
+                            mECommerceDAO.update(newUser);
+
+                            Toast.makeText(Users.this, newUser.getUserName() + " added." + "newCart" + newCartId + " "+ newUser.getCurrentCartId(), Toast.LENGTH_SHORT).show();
                         }
 
                         // Refresh the RecyclerView to reflect the changes

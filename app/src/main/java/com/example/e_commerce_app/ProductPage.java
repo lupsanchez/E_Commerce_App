@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.e_commerce_app.db.AppDatabase;
 import com.example.e_commerce_app.db.ECommerceDAO;
@@ -39,7 +41,7 @@ public class ProductPage extends AppCompatActivity {
     private ECommerceDAO mECommerceDAO;
 
     private User mUser;
-    private int mUserId;
+    private Integer mUserId;
 
     private Product mProduct;
     private int mProductId;
@@ -76,12 +78,43 @@ public class ProductPage extends AppCompatActivity {
 
         mButtonAddToCart = findViewById(R.id.buttonAddToCart);
 
-        mTextViewProductNameTitle.setText(mProduct.getProductName());
-        //mTextViewProductId.setText("Product Id: " + String.valueOf(mProductId));
+        mTextViewProductNameTitle.setText("ID: "+ mProductId + " " + mProduct.getProductName());
         mTextViewProductPrice.setText("Price: $" + String.valueOf(mProduct.getProductPrice()));
         mTextViewProductsInStock.setText("In Stock: " + String.valueOf(mProduct.getProductQuantity()));
 
         mEditTextNumOfProducts.setText("1");
+
+        mButtonAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qtyAddingToCart = Integer.valueOf(String.valueOf(mEditTextNumOfProducts.getText()));
+                if(qtyAddingToCart > mProduct.getProductQuantity()){
+                    Toast.makeText(ProductPage.this, "Not enough items in stock", Toast.LENGTH_SHORT).show();
+                } else{
+                    Cart cart = mECommerceDAO.getCartById(mUser.getCurrentCartId());
+
+                    // Ensure that the cart is not null before proceeding
+                    if (cart != null) {
+                        // Add the current product to the cart
+                        cart.addProductId(mProductId);
+
+                        // Add additional quantities of the product to the cart
+                        for (int i = 1; i < qtyAddingToCart; i++) {
+                            cart.addProductId(mProductId);
+                        }
+
+                        // Update the cart in the DAO or wherever it's stored
+                        mECommerceDAO.update(cart);
+
+                        Toast.makeText(ProductPage.this, qtyAddingToCart + " " + mProduct.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // If the cart is null, you may want to handle this case (e.g., create a new cart)
+                        // Alternatively, display an error message
+                        Toast.makeText(ProductPage.this, mUser.getUserName()+" userId: "+ mUser.getUserId() + "CartId " + mUser.getCurrentCartId() + "Cart not found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
     @Override

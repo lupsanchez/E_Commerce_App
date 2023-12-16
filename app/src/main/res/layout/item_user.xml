@@ -37,6 +37,13 @@
                 android:layout_below="@id/textViewUsername"
                 android:text="Account Type" />
 
+            <TextView
+                android:id="@+id/textViewCartId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewIsAdmin"
+                android:text="Cart Id" />
+
             <Button
                 android:id="@+id/buttonDelete"
                 android:layout_width="wrap_content"

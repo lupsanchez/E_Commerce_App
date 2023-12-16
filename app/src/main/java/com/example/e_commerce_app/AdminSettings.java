@@ -100,6 +100,14 @@ public class AdminSettings extends AppCompatActivity {
             }
         });
 
+        mButtonOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AllOrders.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
 
     }
 

@@ -142,10 +142,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void checkForUser(){
+    private void checkForUser() {
         mUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
-        if(mUserId != -1){
+        if (mUserId != -1) {
             return;
         }
 
@@ -157,15 +157,27 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        if(mUserId != -1){
+        if (mUserId != -1) {
             return;
         }
 
         List<User> users = mECommerceDAO.getAllUsers();
-        if(users.size() <= 0){
+        if (users.size() <= 0) {
             User defaultUser = new User("lsanchez", "pass123", true);
-            defaultUser.setUserId(1);
             mECommerceDAO.insert(defaultUser);
+
+            int defaultUserId = mECommerceDAO.getUserByUsername(defaultUser.getUserName()).getUserId();
+
+            Cart defaultCart = new Cart(defaultUserId);
+
+            long defaultCartId = mECommerceDAO.insert(defaultCart);
+
+            defaultUser = mECommerceDAO.getUserByUserId(defaultCart.getUserId());
+
+            defaultUser.setCurrentCartId((int) defaultCartId);
+
+            mECommerceDAO.update(defaultUser);
+
         }
     }
 
