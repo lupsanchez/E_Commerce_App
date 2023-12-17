@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
         return true;
     }
 
@@ -101,10 +101,26 @@ public class LoginActivity extends AppCompatActivity {
 
         mMenuItemAdminSettings = findViewById(R.id.menuAdminSettings);
 
+        mButtonViewInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AllProductsListed.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
         mButtonAdminSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = AdminSettings.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
+        mButtonViewOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MyOrders.intentFactory(getApplicationContext(), mUser.getUserId());
                 startActivity(intent);
             }
         });

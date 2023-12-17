@@ -7,12 +7,17 @@
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
     <string name="welcome">Welcome!</string>
-    <string name="view_orders">View Orders</string>
+    <string name="my_orders">My Orders</string>
     <string name="admin_settings">Admin Settings</string>
-    <string name="view_inventory">View Inventory</string>
+    <string name="shop_products">Shop Products</string>
     <string name="re_enter_password">Re-enter Password</string>
     <string name="return_to_login">Return to Login</string>
     <string name="invalid_password">Invalid password</string>
     <string name="administrator_settings">Administrator Settings</string>
     <string name="add_new_user">Add New User</string>
+    <string name="productid">ProductId</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_quantity">Product Quantity</string>
+    <string name="delete">Delete</string>
 </resources>

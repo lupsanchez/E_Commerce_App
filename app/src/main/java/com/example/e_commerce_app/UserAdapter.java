@@ -1,23 +1,17 @@
 package com.example.e_commerce_app;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import com.example.e_commerce_app.db.AppDatabase;
 import com.example.e_commerce_app.db.ECommerceDAO;
 
-import java.nio.Buffer;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
@@ -58,13 +52,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         User user = userList.get(position);
 
 
-        holder.mTextViewUserId.setText(String.valueOf(user.getUserId()));
+        holder.mTextViewUserId.setText("User ID: " + String.valueOf(user.getUserId()));
         holder.mTextViewUsername.setText(user.getUserName());
         if(user.isAdmin()){
             holder.mTextViewIsAdmin.setText("Admin Account");
         } else{
             holder.mTextViewIsAdmin.setText("Customer Account");
         }
+        holder.mTextViewCartId.setText("Cart ID: " + String.valueOf(user.getCurrentCartId()));
     }
 
     @Override
@@ -78,6 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView mTextViewUserId;
         TextView mTextViewUsername;
         TextView mTextViewIsAdmin;
+        TextView mTextViewCartId;
         Button mButtonDelete;
 
         public UserViewHolder(View itemView) {
@@ -89,6 +85,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             mTextViewUsername = itemView.findViewById(R.id.textViewUsername);
             mTextViewIsAdmin = itemView.findViewById(R.id.textViewIsAdmin);
             mButtonDelete = itemView.findViewById(R.id.buttonDelete);
+            mTextViewCartId = itemView.findViewById(R.id.textViewCartId);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

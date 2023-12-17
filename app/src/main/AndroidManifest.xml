@@ -50,11 +50,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Products"
+            android:name=".Inventory"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.PRODUCTS" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.INVENTORY" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AllProductsListed"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ALLPRODUCTSLISTED" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ProductPage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PRODUCTPAGE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AllOrders"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ALLORDERS" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyCart"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MYCART" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyOrders"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MYORDERS" />
+            </intent-filter>
         </activity>
     </application>
 

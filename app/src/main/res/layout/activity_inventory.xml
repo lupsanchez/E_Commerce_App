@@ -14,13 +14,13 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textViewUsersTitle"
+        android:id="@+id/textViewProductsTitle"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_margin="50dp"
         android:ems="10"
         android:gravity="center"
-        android:text="All Users"
+        android:text="Inventory"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,18 +28,18 @@
         app:layout_constraintTop_toBottomOf= "@id/myToolbar"/>
 
     <Button
-        android:id="@+id/buttonAddUser"
+        android:id="@+id/buttonAddProduct"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
-        android:text="@string/add_new_user"
+        android:text="Add New Product"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewUsersTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/textViewProductsTitle"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewUsers"
+        android:id="@+id/recyclerViewProducts"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_marginStart="16dp"
@@ -49,6 +49,6 @@
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddUser"/>
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddProduct"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

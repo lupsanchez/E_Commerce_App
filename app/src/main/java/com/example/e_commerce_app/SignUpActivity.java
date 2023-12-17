@@ -71,6 +71,17 @@ public class SignUpActivity extends AppCompatActivity {
                     if(mPassword.equals(mReEnteredPassword)){
                         User newUser = new User(mUsername, mPassword);
                         mECommerceDAO.insert(newUser);
+
+                        int newUserId = mECommerceDAO.getUserByUsername(newUser.getUserName()).getUserId();
+
+                        Cart newCart = new Cart(newUserId);
+
+                        long newCartId = mECommerceDAO.insert(newCart);
+
+                        newUser = mECommerceDAO.getUserByUserId(newCart.getUserId());
+
+                        newUser.setCurrentCartId(Integer.valueOf((int) newCartId));
+                        mECommerceDAO.update(newUser);
                         Toast.makeText(SignUpActivity.this, "New user added", Toast.LENGTH_SHORT).show();
                         clearInputFields();
                     }else{

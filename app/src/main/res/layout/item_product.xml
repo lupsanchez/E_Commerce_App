@@ -6,6 +6,7 @@
     android:padding="0dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -14,35 +15,35 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/textViewUserId"
+                android:id="@+id/textViewProductId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UserId" />
+                android:text="@string/productid" />
 
             <TextView
-                android:id="@+id/textViewUsername"
+                android:id="@+id/textViewProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewUserId"
-                android:text="Username" />
+                android:text="@string/product_name"
+                android:layout_below="@id/textViewProductId"/>
 
             <TextView
-                android:id="@+id/textViewIsAdmin"
+                android:id="@+id/textViewProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewUsername"
-                android:text="Account Type" />
+                android:text="@string/product_price"
+                android:layout_below="@id/textViewProductName"/>
 
             <TextView
-                android:id="@+id/textViewCartId"
+                android:id="@+id/textViewProductQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewIsAdmin"
-                android:text="Cart Id" />
+                android:text="@string/product_quantity"
+                android:layout_below="@id/textViewProductPrice"/>
 
             <Button
                 android:id="@+id/buttonDelete"
@@ -50,11 +51,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:onClick="onDeleteButtonClick"
-                android:text="Delete" />
+                android:text="@string/delete" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+</LinearLayout>

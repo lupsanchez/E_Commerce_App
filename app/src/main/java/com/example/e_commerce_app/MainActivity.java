@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         getDatabase();
 
+        checkForProducts();
+
         checkForUser();
 
         //addUserToPreference(mUserId);
@@ -142,10 +144,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void checkForUser(){
+    private void checkForProducts(){
+        List<Product> productList = mECommerceDAO.getAllProducts();
+        if (productList.size() <= 0) {
+            Product item1 = new Product("Item 1", 9.99, 50);
+            Product item2 = new Product("Item 2", 19.99, 50);
+            Product item3 = new Product("Item 3", 29.99, 50);
+            Product item4 = new Product("Item 4", 39.99, 50);
+            Product item5 = new Product("Item 5", 49.99, 50);
+            mECommerceDAO.insert(item1, item2, item3, item4, item5);
+        }
+    }
+
+    private void checkForUser() {
         mUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
-        if(mUserId != -1){
+        if (mUserId != -1) {
             return;
         }
 
@@ -157,15 +171,27 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        if(mUserId != -1){
+        if (mUserId != -1) {
             return;
         }
 
         List<User> users = mECommerceDAO.getAllUsers();
-        if(users.size() <= 0){
+        if (users.size() <= 0) {
             User defaultUser = new User("lsanchez", "pass123", true);
-            defaultUser.setUserId(1);
             mECommerceDAO.insert(defaultUser);
+
+            int defaultUserId = mECommerceDAO.getUserByUsername(defaultUser.getUserName()).getUserId();
+
+            Cart defaultCart = new Cart(defaultUserId);
+
+            long defaultCartId = mECommerceDAO.insert(defaultCart);
+
+            defaultUser = mECommerceDAO.getUserByUserId(defaultCart.getUserId());
+
+            defaultUser.setCurrentCartId((int) defaultCartId);
+
+            mECommerceDAO.update(defaultUser);
+
         }
     }
 

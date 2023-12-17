@@ -1,11 +1,16 @@
 package com.example.e_commerce_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,12 +39,28 @@ public class AdminSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_settings);
 
+        Toolbar toolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar);
+
         getDatabase();
 
         userId = getIntent().getIntExtra(USER_ID_KEY, -1);
         mUser = mECommerceDAO.getUserByUserId(userId);
 
         wireUpDisplay();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return MenuHelper.onOptionsItemSelected(this, item, mUser) || super.onOptionsItemSelected(item);
     }
 
     private void wireUpDisplay() {
@@ -67,6 +88,22 @@ public class AdminSettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = Users.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
+        mButtonInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = Inventory.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
+            }
+        });
+
+        mButtonOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AllOrders.intentFactory(getApplicationContext(), mUser.getUserId());
                 startActivity(intent);
             }
         });
