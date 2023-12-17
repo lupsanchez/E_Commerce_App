@@ -52,14 +52,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         User user = userList.get(position);
 
 
-        holder.mTextViewUserId.setText(String.valueOf(user.getUserId()));
+        holder.mTextViewUserId.setText("User ID: " + String.valueOf(user.getUserId()));
         holder.mTextViewUsername.setText(user.getUserName());
         if(user.isAdmin()){
             holder.mTextViewIsAdmin.setText("Admin Account");
         } else{
             holder.mTextViewIsAdmin.setText("Customer Account");
         }
-        holder.mTextViewCartId.setText(String.valueOf(user.getCurrentCartId()));
+        holder.mTextViewCartId.setText("Cart ID: " + String.valueOf(user.getCurrentCartId()));
     }
 
     @Override

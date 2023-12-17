@@ -73,16 +73,23 @@
         <activity
             android:name=".AllOrders"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.ALLORDERS" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ALLORDERS" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MyCart"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MYCART" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MYCART" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyOrders"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MYORDERS" />
+            </intent-filter>
         </activity>
     </application>
 

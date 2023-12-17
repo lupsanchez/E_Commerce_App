@@ -37,26 +37,16 @@ tools:context=".LoginActivity">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <SearchView
-        android:id="@+id/searchBar"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginTextDisplay" />
-
     <Button
         android:id="@+id/buttonViewOrders"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/view_orders"
+        android:text="@string/my_orders"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar" />
+        app:layout_constraintTop_toBottomOf="@id/loginTextDisplay" />
 
     <Button
         android:id="@+id/buttonViewInventory"
@@ -64,7 +54,7 @@ tools:context=".LoginActivity">
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/view_inventory"
+        android:text="@string/shop_products"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonViewOrders" />

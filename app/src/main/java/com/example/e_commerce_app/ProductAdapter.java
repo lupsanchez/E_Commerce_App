@@ -51,10 +51,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
 
 
-        holder.mTextViewProductId.setText(String.valueOf(product.getProductId()));
+        holder.mTextViewProductId.setText("ID: " + String.valueOf(product.getProductId()));
         holder.mTextViewProductName.setText(product.getProductName());
-        holder.mTextViewProductPrice.setText(String.valueOf("$ " + product.getProductPrice()));
-        holder.mTextViewProductQuantity.setText(String.valueOf(product.getProductQuantity()));
+        holder.mTextViewProductPrice.setText("$ " + String.format("%.2f",product.getProductPrice()));
+        holder.mTextViewProductQuantity.setText("In Stock: "+String.valueOf(product.getProductQuantity()));
     }
 
     @Override

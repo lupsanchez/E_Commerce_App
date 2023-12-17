@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AllOrders extends AppCompatActivity implements OrderAdapter.OnCancelClickListener{
+public class MyOrders extends AppCompatActivity implements OrderAdapter.OnCancelClickListener{
     private static final String USER_ID_KEY = "com.example.e_commerce_app.USER_ID_KEY";
-    private TextView mTextViewAllOrdersTitle;
-    private RecyclerView mRecyclerViewAllOrders;
+    private TextView mTextViewMyOrdersTitle;
+    private RecyclerView mRecyclerViewMyOrders;
 
     private ECommerceDAO mECommerceDAO;
 
@@ -46,17 +46,17 @@ public class AllOrders extends AppCompatActivity implements OrderAdapter.OnCance
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_orders);
+        setContentView(R.layout.activity_my_orders);
 
         Toolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
         getDatabase();
 
-        mOrdersList = mECommerceDAO.getOrderedCarts();
-
         mUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
         mUser = mECommerceDAO.getUserByUserId(mUserId);
+
+        mOrdersList = (List<Cart>) mECommerceDAO.getOrderedCartsByUserId(mUserId);
 
         wireUpdDisplay();
 
@@ -93,13 +93,13 @@ public class AllOrders extends AppCompatActivity implements OrderAdapter.OnCance
     }
 
     private void wireUpdDisplay() {
-        mTextViewAllOrdersTitle = findViewById(R.id.textViewAllOrdersTitle);
+        mTextViewMyOrdersTitle = findViewById(R.id.textViewMyOrdersTitle);
 
-        mRecyclerViewAllOrders = findViewById(R.id.recyclerViewAllOrders);
-        mRecyclerViewAllOrders.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewMyOrders = findViewById(R.id.recyclerViewMyOrders);
+        mRecyclerViewMyOrders.setLayoutManager(new LinearLayoutManager(this));
 
         mOrderAdapter = new OrderAdapter(mOrdersList, this, mECommerceDAO, this::onCancelClick);
-        mRecyclerViewAllOrders.setAdapter(mOrderAdapter);
+        mRecyclerViewMyOrders.setAdapter(mOrderAdapter);
 
     }
 
@@ -123,10 +123,10 @@ public class AllOrders extends AppCompatActivity implements OrderAdapter.OnCance
     }
 
     private void refreshDisplay(){
-        mOrdersList = mECommerceDAO.getOrderedCarts();
+        mOrdersList = (List<Cart>) mECommerceDAO.getOrderedCartsByUserId(mUserId);
 
         mOrderAdapter = new OrderAdapter(mOrdersList, this, mECommerceDAO, this);
-        mRecyclerViewAllOrders.setAdapter(mOrderAdapter);
+        mRecyclerViewMyOrders.setAdapter(mOrderAdapter);
     }
 
     public void onCancelClick(int position){
@@ -145,7 +145,7 @@ public class AllOrders extends AppCompatActivity implements OrderAdapter.OnCance
             public void onClick(DialogInterface dialog, int which) {
                 updateInventory(mProductsList);
                 markCartAsCancelled(cartToCancel);
-                Toast.makeText(AllOrders.this, "Order #: " + cartToCancel.getCartId() + " has been cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyOrders.this, "Order #: " + cartToCancel.getCartId() + " has been cancelled", Toast.LENGTH_SHORT).show();
 
                 refreshDisplay();
             }
@@ -175,7 +175,7 @@ public class AllOrders extends AppCompatActivity implements OrderAdapter.OnCance
     }
 
     public static Intent intentFactory(Context context, int userId){
-        Intent intent = new Intent(context, AllOrders.class);
+        Intent intent = new Intent(context, MyOrders.class);
         intent.putExtra(USER_ID_KEY, userId);
         return intent;
     }

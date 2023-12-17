@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllOrders">
+    tools:context=".MyOrders">
 
     <include
         android:id="@+id/myToolbar"
@@ -14,13 +14,13 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textViewAllOrdersTitle"
+        android:id="@+id/textViewMyOrdersTitle"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_margin="50dp"
         android:ems="10"
         android:gravity="center"
-        android:text="All Orders"
+        android:text="My Orders"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf= "@id/myToolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAllOrders"
+        android:id="@+id/recyclerViewMyOrders"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_margin="16dp"
@@ -37,6 +37,7 @@
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAllOrdersTitle"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewMyOrdersTitle"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

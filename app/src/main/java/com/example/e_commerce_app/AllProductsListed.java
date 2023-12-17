@@ -59,7 +59,9 @@ public class AllProductsListed extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
+
+
         return true;
     }
 

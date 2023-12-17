@@ -72,5 +72,8 @@ public interface ECommerceDAO {
     Cart getCartById(int cartId);
 
     @Query("SELECT * FROM " + AppDatabase.CART_TABLE + " WHERE mUserId = :userId AND mCartOrdered = 1")
-    Cart getOrderedCartsByUserId(int userId);
+    List<Cart> getOrderedCartsByUserId(int userId);
+
+    @Query("SELECT * FROM " + AppDatabase.CART_TABLE + " WHERE mCartOrdered = 1")
+    List<Cart> getOrderedCarts();
 }

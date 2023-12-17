@@ -67,7 +67,7 @@ public class Inventory extends AppCompatActivity implements ProductAdapter.OnIte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
         return true;
     }
 
@@ -127,7 +127,7 @@ public class Inventory extends AppCompatActivity implements ProductAdapter.OnIte
 
         // Set initial values from the user object
         editTextProductName.setText(mSelectedProduct.getProductName());
-        editTextProductPrice.setText(String.valueOf(mSelectedProduct.getProductPrice()));
+        editTextProductPrice.setText(String.format("%.2f",mSelectedProduct.getProductPrice()));
         editTextProductQuantity.setText(String.valueOf(mSelectedProduct.getProductQuantity()));
 
         builder.setView(dialogView)

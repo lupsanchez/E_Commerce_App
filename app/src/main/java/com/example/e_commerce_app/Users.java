@@ -67,7 +67,7 @@ public class Users extends AppCompatActivity implements UserAdapter.OnItemClickL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
         return true;
     }
 
@@ -157,7 +157,7 @@ public class Users extends AppCompatActivity implements UserAdapter.OnItemClickL
                             newUser.setCurrentCartId(Integer.valueOf((int) newCartId));
                             mECommerceDAO.update(newUser);
 
-                            Toast.makeText(Users.this, newUser.getUserName() + " added." + "newCart" + newCartId + " "+ newUser.getCurrentCartId(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Users.this, newUser.getUserName() + " added.", Toast.LENGTH_SHORT).show();
                         }
 
                         // Refresh the RecyclerView to reflect the changes

@@ -55,5 +55,15 @@
             android:layout_margin="10dp"
             android:text="$##.##"/>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/buttonCartRemoveItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:text="Remove"
+            android:textSize="8sp" />
+
+</LinearLayout>
 </androidx.cardview.widget.CardView>

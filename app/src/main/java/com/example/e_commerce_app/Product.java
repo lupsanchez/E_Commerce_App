@@ -52,4 +52,9 @@ public class Product {
     public void setProductQuantity(int productQuantity) {
         mProductQuantity = productQuantity;
     }
+
+    @Override
+    public String toString() {
+        return "#: " + mProductId + " " + mProductName + " $" + mProductPrice + " X " + mProductQuantity;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.e_commerce_app;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,23 +9,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.e_commerce_app.db.AppDatabase;
 import com.example.e_commerce_app.db.ECommerceDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClickListener {
+public class MyCart extends AppCompatActivity implements CartAdapter.OnItemRemoveListener {
     private static final String USER_ID_KEY = "com.example.e_commerce_app.USER_ID_KEY";
     private TextView mTextViewMyCartTitle;
 
@@ -32,7 +37,7 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
 
     private TextView mTextViewCartTotal;
 
-    private Button mButtonPurchase;
+    private Button mButtonPlaceOrder;
 
     private ECommerceDAO mECommerceDAO;
 
@@ -46,6 +51,8 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
 
     private Product mProduct;
     private Product mSelectedProduct;
+
+    private double totalCartAmount;
 
 
     @Override
@@ -63,8 +70,17 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
 
         mCart = mECommerceDAO.getCartById(mUser.getCurrentCartId());
 
+        createProductList();
+
+        wireUpdDisplay();
+    }
+
+
+
+    private void createProductList() {
         // Get the list of product IDs from the cart
         List<Integer> productIds = mCart.getProductIds();
+
 
         // Initialize the list to hold products with quantities
         mProductsList = new ArrayList<>();
@@ -91,9 +107,11 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
             productWithQuantity.setProductId(productId);
             // Add the product with quantity to the list
             mProductsList.add(productWithQuantity);
-        }
 
-        wireUpdDisplay();
+            double totalCost = product.getProductPrice() * quantity;
+            totalCartAmount += totalCost;
+
+        }
     }
 
     private void wireUpdDisplay() {
@@ -102,19 +120,28 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
         mRecyclerViewCartItems = findViewById(R.id.recyclerViewCartItems);
         mRecyclerViewCartItems.setLayoutManager(new LinearLayoutManager(this));
 
-        mCartAdapter = new CartAdapter(mProductsList, this::onItemClick, this, mECommerceDAO);
+        mCartAdapter = new CartAdapter(mProductsList, this::onRemoveClick, this, mECommerceDAO);
         mRecyclerViewCartItems.setAdapter(mCartAdapter);
 
         mTextViewCartTotal = findViewById(R.id.textViewCartTotal);
 
-        mButtonPurchase = findViewById(R.id.buttonPurchase);
+        mTextViewCartTotal.setText("Total Cost: $ " + String.format("%.2f",mCart.getCartTotalCost()));
+
+        mButtonPlaceOrder = findViewById(R.id.buttonPurchase);
+
+        mButtonPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickPlaceOrder(v);
+            }
+        });
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
         return true;
     }
 
@@ -130,10 +157,93 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemClick
                 .getECommerceDAO();
     }
 
+    public void onClickPlaceOrder(View view) {
+        updateInventory();
+        markCartAsOrdered();
+        createNewCart();
+        displayOrderPlacedMessage();
+        refreshDisplay();
+    }
+
+    private void refreshDisplay() {
+        mCart = mECommerceDAO.getCartById(mUser.getCurrentCartId());
+
+        createProductList();
+
+        wireUpdDisplay();
+    }
+
+    private void updateInventory() {
+        for (Product product : mProductsList) {
+            Product inventory = mECommerceDAO.getProductById(product.getProductId());
+            int newQty = inventory.getProductQuantity() - product.getProductQuantity();
+            inventory.setProductQuantity(newQty);
+            mECommerceDAO.update(inventory);
+        }
+    }
+
+    private void createNewCart(){
+        Cart newCart = new Cart(mUserId);
+
+        long newCartId = mECommerceDAO.insert(newCart);
+
+        mUser.setCurrentCartId((int) newCartId);
+
+        mECommerceDAO.update(mUser);
+    }
+
+    private void markCartAsOrdered() {
+        mCart.setCartOrdered(true);
+        mECommerceDAO.update(mCart);
+    }
+
+    private void displayOrderPlacedMessage() {
+        Toast.makeText(this, "Order Placed", Toast.LENGTH_SHORT).show();
+    }
+
      //@Override
-    public void onItemClick(int productId){
-        mSelectedProduct = mECommerceDAO.getProductById(productId);
-        showEditCartItemDialog();
+     public void onRemoveClick(int position){
+         showRemoveConfirmationDialog(position);
+     }
+
+    private void showRemoveConfirmationDialog(int position) {
+        Product product = mProductsList.get(position);
+        int productId = product.getProductId();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Remove Item");
+        builder.setMessage("Are you sure you want to remove item #: " + product.getProductName() + "?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                List<Integer> productIds = mCart.getProductIds();
+
+                Iterator<Integer> iterator = productIds.iterator();
+                while (iterator.hasNext()) {
+                    Integer cartProductID = iterator.next();
+                    if (cartProductID == productId) {
+                        iterator.remove();
+                    }
+                }
+
+                mCart.setProductIds(productIds);
+
+                mECommerceDAO.update(mCart);
+
+                refreshDisplay();
+
+                Toast.makeText(MyCart.this, "Item #: " + product.getProductName()+ " has been removed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+
+            }
+
+        }).show();
     }
 
     private void showEditCartItemDialog() {

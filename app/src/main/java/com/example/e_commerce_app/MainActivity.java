@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         getDatabase();
 
+        checkForProducts();
+
         checkForUser();
 
         //addUserToPreference(mUserId);
@@ -140,6 +142,18 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void checkForProducts(){
+        List<Product> productList = mECommerceDAO.getAllProducts();
+        if (productList.size() <= 0) {
+            Product item1 = new Product("Item 1", 9.99, 50);
+            Product item2 = new Product("Item 2", 19.99, 50);
+            Product item3 = new Product("Item 3", 29.99, 50);
+            Product item4 = new Product("Item 4", 39.99, 50);
+            Product item5 = new Product("Item 5", 49.99, 50);
+            mECommerceDAO.insert(item1, item2, item3, item4, item5);
+        }
     }
 
     private void checkForUser() {

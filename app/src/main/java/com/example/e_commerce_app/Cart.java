@@ -18,6 +18,8 @@ public class Cart {
 
     private List<Integer> mProductIds;
 
+    private double mCartTotalCost;
+
     private boolean mCartOrdered;
 
     private boolean mCartCancelled;
@@ -27,6 +29,7 @@ public class Cart {
         mProductIds = new ArrayList<>();
         mCartCancelled = false;
         mCartOrdered = false;
+        mCartTotalCost = 0.0;
     }
 
     public int getCartId() {
@@ -75,5 +78,17 @@ public class Cart {
 
     public void setUserId(int userId) {
         mUserId = userId;
+    }
+
+    public double getCartTotalCost() {
+        return mCartTotalCost;
+    }
+
+    public void setCartTotalCost(double cartTotalCost) {
+        mCartTotalCost = cartTotalCost;
+    }
+
+    public void addToCartTotalCost(double newCost) {
+        mCartTotalCost += newCost;
     }
 }

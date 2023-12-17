@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,21 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_commerce_app.db.ECommerceDAO;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     private List<Product> mProductList;
-    private CartAdapter.OnItemClickListener mOnItemClickListener;
+    private OnItemRemoveListener mOnItemRemoveListener;
     private Context context;
 
     private ECommerceDAO mECommerceDAO;
 
-    public CartAdapter(List<Product> productList, CartAdapter.OnItemClickListener onItemClickListener, Context context, ECommerceDAO ECommerceDAO) {
+    public CartAdapter(List<Product> productList, OnItemRemoveListener onItemRemoveListener, Context context, ECommerceDAO ECommerceDAO) {
         this.mProductList = productList;
-        this.mOnItemClickListener = onItemClickListener;
+        this.mOnItemRemoveListener = onItemRemoveListener;
         this.context = context;
         this.mECommerceDAO = ECommerceDAO;
     }
@@ -49,6 +47,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView mTextViewProductQty;
         TextView mTextViewTotalCost;
 
+        Button mButtonCartRemoveItem;
+
         public CartViewHolder(View itemView){
             super(itemView);
 
@@ -57,6 +57,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             mTextViewProductPrice = itemView.findViewById(R.id.textViewProductPrice);
             mTextViewProductQty = itemView.findViewById(R.id.textViewProductQuantity);
             mTextViewTotalCost = itemView.findViewById(R.id.textViewTotalCost);
+
+            mButtonCartRemoveItem = itemView.findViewById(R.id.buttonCartRemoveItem);
+
+            mButtonCartRemoveItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mOnItemRemoveListener != null){
+                        mOnItemRemoveListener.onRemoveClick(getLayoutPosition());
+                    }
+                }
+            });
         }
 
     }
@@ -79,8 +90,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return mProductList.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int productId);
+    public interface OnItemRemoveListener {
+        void onRemoveClick(int productId);
     }
 
 

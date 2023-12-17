@@ -79,7 +79,7 @@ public class ProductPage extends AppCompatActivity {
         mButtonAddToCart = findViewById(R.id.buttonAddToCart);
 
         mTextViewProductNameTitle.setText("ID: "+ mProductId + " " + mProduct.getProductName());
-        mTextViewProductPrice.setText("Price: $" + String.valueOf(mProduct.getProductPrice()));
+        mTextViewProductPrice.setText("Price: $" + String.format("%.2f",mProduct.getProductPrice()));
         mTextViewProductsInStock.setText("In Stock: " + String.valueOf(mProduct.getProductQuantity()));
 
         mEditTextNumOfProducts.setText("1");
@@ -97,14 +97,17 @@ public class ProductPage extends AppCompatActivity {
                     if (cart != null) {
                         // Add the current product to the cart
                         cart.addProductId(mProductId);
+                        cart.addToCartTotalCost(mProduct.getProductPrice());
 
                         // Add additional quantities of the product to the cart
                         for (int i = 1; i < qtyAddingToCart; i++) {
                             cart.addProductId(mProductId);
+                            cart.addToCartTotalCost(mProduct.getProductPrice());
                         }
 
                         // Update the cart in the DAO or wherever it's stored
                         mECommerceDAO.update(cart);
+                        refreshDisplay();
 
                         Toast.makeText(ProductPage.this, qtyAddingToCart + " " + mProduct.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
                     } else {
@@ -117,10 +120,17 @@ public class ProductPage extends AppCompatActivity {
         });
     }
 
+    private void refreshDisplay() {
+        mProduct = mECommerceDAO.getProductById(mProductId);
+
+        // Update the UI components with the latest data
+        mTextViewProductsInStock.setText("In Stock: " + String.valueOf(mProduct.getProductQuantity()));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
         return true;
     }
 

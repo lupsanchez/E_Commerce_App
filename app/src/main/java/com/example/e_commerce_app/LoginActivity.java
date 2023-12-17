@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser);
+        MenuHelper.onCreateOptionsMenu(inflater, menu, mUser, mECommerceDAO);
         return true;
     }
 
@@ -120,7 +120,8 @@ public class LoginActivity extends AppCompatActivity {
         mButtonViewOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = MyOrders.intentFactory(getApplicationContext(), mUser.getUserId());
+                startActivity(intent);
             }
         });
 

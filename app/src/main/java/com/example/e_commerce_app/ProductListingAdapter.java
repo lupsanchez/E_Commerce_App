@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_commerce_app.db.ECommerceDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductListingViewHolder> {
+public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductListingViewHolder> implements Filterable {
 
     private List<Product> productList;
+    private List<Product> productListFull;
     private ProductListingAdapter.OnItemClickListener listener;
     private Context context;
 
@@ -28,6 +32,11 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         this.listener = listener;
         this.context = context;
         this.mECommerceDAO = eCommerceDAO;
+    }
+
+    public ProductListingAdapter(List<Product> productList){
+        this.productList = productList;
+        productListFull = new ArrayList<>(productList);
     }
 
     @NonNull
@@ -49,10 +58,10 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         Product product = productList.get(position);
 
 
-        holder.mTextViewProductId.setText(String.valueOf(product.getProductId()));
+        holder.mTextViewProductId.setText(String.valueOf("ID: " + product.getProductId()));
         holder.mTextViewProductName.setText(product.getProductName());
-        holder.mTextViewProductPrice.setText(String.valueOf(product.getProductPrice()));
-        holder.mTextViewProductQuantity.setText(String.valueOf(product.getProductQuantity()));
+        holder.mTextViewProductPrice.setText("$ " + String.format("%.2f",product.getProductPrice()));
+        holder.mTextViewProductQuantity.setText("In Stock: " + String.valueOf(product.getProductQuantity()));
     }
 
     @Override
@@ -88,6 +97,39 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         }
     }
 
+    @Override
+    public Filter getFilter() {
+        return productFilter;
+    }
+
+    private Filter productFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Product> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(productListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(Product product : productListFull){
+                    if(product.getProductName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(product);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            productList.clear();
+            productList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public interface OnItemClickListener {
         void onItemClick(int productId);
