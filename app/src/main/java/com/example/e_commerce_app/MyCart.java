@@ -132,7 +132,12 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemRemov
         mButtonPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickPlaceOrder(v);
+                if(mCart.getProductIds().size() == 0){
+                    Toast.makeText(MyCart.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    onClickPlaceOrder(v);
+                }
+
             }
         });
 
@@ -223,6 +228,7 @@ public class MyCart extends AppCompatActivity implements CartAdapter.OnItemRemov
                 while (iterator.hasNext()) {
                     Integer cartProductID = iterator.next();
                     if (cartProductID == productId) {
+                        mCart.addToCartTotalCost(-product.getProductPrice());
                         iterator.remove();
                     }
                 }
